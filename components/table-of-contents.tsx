@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
+import { CopyIcon, CheckIcon } from "lucide-react"
 
 interface TocEntry {
   depth: number
@@ -9,8 +10,22 @@ interface TocEntry {
   id: string
 }
 
-export function TableOfContents({ headings }: { headings: TocEntry[] }) {
+export function TableOfContents({
+  headings,
+  rawContent,
+}: {
+  headings: TocEntry[]
+  rawContent?: string
+}) {
   const [activeId, setActiveId] = useState<string>("")
+  const [copied, setCopied] = useState(false)
+
+  async function copyMarkdown() {
+    if (!rawContent) return
+    await navigator.clipboard.writeText(rawContent)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   useEffect(() => {
     if (headings.length === 0) return
@@ -46,6 +61,19 @@ export function TableOfContents({ headings }: { headings: TocEntry[] }) {
 
   return (
     <nav aria-label="Table of contents">
+      {rawContent && (
+        <button
+          onClick={copyMarkdown}
+          className="mb-4 flex w-full items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          {copied ? (
+            <CheckIcon className="size-3.5 text-green-500" />
+          ) : (
+            <CopyIcon className="size-3.5" />
+          )}
+          {copied ? "Copied!" : "Copy as Markdown"}
+        </button>
+      )}
       <p className="mb-3 text-sm font-medium">On this page</p>
       <ul className="space-y-1.5 text-sm">
         {headings.map((heading) => (

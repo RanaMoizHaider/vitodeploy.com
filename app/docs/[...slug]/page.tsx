@@ -104,7 +104,7 @@ export default async function DocPage({ params }: PageProps) {
       {/* Table of Contents - right sidebar */}
       {headings.length > 0 && (
         <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-56 shrink-0 overflow-y-auto py-8 pr-4 xl:block">
-          <TableOfContents headings={headings} />
+          <TableOfContents headings={headings} rawContent={doc.content} />
         </aside>
       )}
     </div>
