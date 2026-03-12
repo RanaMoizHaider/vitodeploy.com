@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && bun run scripts/generate-rss.ts",
+    "build": "next build && bun run scripts/generate-rss.ts && bun run scripts/copy-docs-md.ts",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
